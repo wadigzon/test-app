@@ -1,13 +1,24 @@
-import React from 'react';
 
-import './App.css';
-
-function App() {
+export default function App() {
+  // <button onClick={handleClick}>Click Me</button>
   return (
-    <button>Click Me</button>
+    <MyButton onClick={handleClick}>Click Me</MyButton>
   );
 }
 
+// better to move it out of the component
+const handleClick = (event) => {
+  console.log(event);
+}
 
+function MyButton(props) {
+  return (
+    <button 
+    {...props}
+    style={{
+      color: 'red'
+    }} />
+  
+  );
+}
 
-export default App;
