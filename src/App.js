@@ -1,24 +1,21 @@
-import logo from './logo.svg';
+import React from 'react';
+
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Comment username="Conner" time={(new Date()).toString()}>
+      <h1>Hello World</h1>
+    </Comment>
+  );
+}
+
+function Comment({children, username, time}) {
+  return (
+    <section>
+    <p>{username} commented at {time} </p>
+    {children}
+  </section>
   );
 }
 
