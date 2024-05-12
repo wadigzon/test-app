@@ -1,13 +1,12 @@
-import React from 'react';
+export default function App() {
+  let count = 0;
 
-import './App.css';
-
-function App() {
   return (
-    <h1>Hello World!</h1>
+    <>
+      <button onClick={()=>count++}>
+        Increment
+      </button>
+      <p>Count: {count}</p>
+    </>
   );
 }
-
-
-
-export default App;
