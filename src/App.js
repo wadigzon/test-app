@@ -1,5 +1,7 @@
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
+
 import './App.css';
 
 // problem: modal has higher z-index but still shows beneath other content
@@ -14,7 +16,9 @@ export default function App() {
   const [isHidden, setIsHidden] = useState(true);
   return (
     <>
-      <div className="container">
+      <div className="container" onClick={() => {
+        console.log('Clicked container')
+      }}>
         <button onClick={() => setIsHidden(!isHidden)}>
           {isHidden ? 'Show Modal' : 'Hide Modal'}
         </button>
@@ -29,5 +33,8 @@ export default function App() {
 }
 
 function Modal() {
-  return <p className="modal">Modal</p>
+  return createPortal(
+    <p className="modal">Modal</p>,
+    document.getElementById('modal-root')
+  );
 }
