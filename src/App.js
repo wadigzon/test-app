@@ -4,15 +4,21 @@ export default function App() {
   const [count, setCount] = useState(0);
   const [text, setText] = useState('');
 
+  /*
   const prevCount = useRef();
   useEffect(() => {
     prevCount.current = count;
   }, [count]);
-
+  */
+  const prevCount = usePrevious(count);
+ 
+  /*
   const prevText = useRef();
   useEffect(() => {
     prevText.current = text;
   }, [text]);
+  */
+  const prevText = usePrevious(text);
 
   return (
     <>
@@ -26,4 +32,12 @@ export default function App() {
         <p>Previous render text: {prevText.current}</p>
     </>
   );
+}
+
+function usePrevious(value) {
+  const prevRef = useRef();
+  useEffect(() => {
+    prevRef.current = value;
+  }, [value]);
+  return prevRef;
 }
