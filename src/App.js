@@ -1,5 +1,15 @@
+import Counter from "./Counter";
+import CustomInput from "./CustomInput";
+import './App.css';
+
 export default function App() {
   return (
-    <h1>Hello World!</h1>
+    <>
+      <Counter />
+      <CustomInput placeholder = "Type Something ..." />
+      <button>
+        Reset
+      </button>
+    </>
   );
 }
