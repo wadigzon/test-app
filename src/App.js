@@ -2,13 +2,13 @@ import { useState, useRef, useEffect } from "react";
 
 export default function App() {
   const [count, setCount] = useState(0);
-  const [text, setText] = useState(0);
+  const [text, setText] = useState('');
 
   const prevCount = useRef();
   useEffect(() => {
     prevCount.current = count;
   }, [count]);
-  
+
   const prevText = useRef();
   useEffect(() => {
     prevText.current = text;
