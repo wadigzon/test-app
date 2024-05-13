@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
-export default function Counter () {
+export default forwardRef(function Counter (props, ref) {
     const [count, setCount] = useState(0);
-
+    useImperativeHandle(ref, () => {
+        return {
+            reset: () => setCount(0)
+        }
+    });
     return (
         <>
         <button onClick = {() => setCount(count + 1)}>
@@ -11,4 +15,4 @@ export default function Counter () {
         <p>Count: {count}</p>
         </>
     );
-}
+})
