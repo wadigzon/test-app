@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 export default function App() {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
@@ -6,7 +6,14 @@ export default function App() {
   return (
     <>
     <ul>
-      {/* TODO */}
+      {items.map((item,i) => {
+        return (
+          <Fragment key={i}>
+            <li >{item}</li> 
+            <p>====</p>
+          </Fragment>
+        )
+      })}
     </ul>
     <input
       type="text"
@@ -15,8 +22,10 @@ export default function App() {
     />
     <button
       onClick={() => {
-        setItems([...items, newItem]);
-        setNewItem('');
+        if (newItem.trim().length > 0) {
+          setItems([...items, newItem]);
+          setNewItem('');
+        }
       }}
     >
       Add List Item
