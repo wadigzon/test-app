@@ -1,14 +1,28 @@
 import './App.css'
-import { useState } from "react";
-import MyButton from './MyButton';
+import { useState, useMemo, useCallback, lazy, Suspense } from "react";
+// import MyButton from './MyButton';
+const MyButton = lazy(() => import('./MyButton'));
 
 export default function App() {
   const [num, setNum] = useState(10);
   const [logValue, setLogValue] = useState('');
-
+  const fibValue = useMemo(() => {
+    console.log('calculating fib value');
+    return fib(num);
+  }, [num]);
+/*
+  const onClickLog = useMemo(() => {
+    return () => {
+      console.log(logValue);
+    }
+  }, [logValue])
+*/
+  const onClickLog = useCallback(() => {
+    console.log(logValue);
+  }, [logValue]);
   return (
     <>
-      <h1>Fib {num} is {fib(num)}</h1>
+      <h1>Fib {num} is {fibValue}</h1>
       <input 
         type="number"
         value={num}
@@ -21,11 +35,16 @@ export default function App() {
         value={logValue}
         onChange={(event) => setLogValue(event.target.value)}
       />
-
-      <MyButton onClick={() => {
-        console.log(logValue);
-      }}
-      >Log Value</MyButton>
+      {
+        logValue.length > 0 ? 
+        (
+          <Suspense fallback={<div>Loading...</div>}>
+            <MyButton onClick={onClickLog}>Log Value</MyButton> 
+          </Suspense>
+        ): 
+        null
+      }
+      
     </>
   );
 }
