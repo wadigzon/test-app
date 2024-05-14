@@ -1,49 +1,76 @@
-import { useEffect, useState } from "react";
+import { Component, createContext, createRef, useState } from "react";
+
+const Theme = createContext({
+  mode: 'dark'
+});
 
 export default function App() {
+  const [shouldRender, setShouldRender] = useState(true);
+
   return (  
     <>
-      <Counter startingCount={10} />
-      <Counter />
+    <Theme.Provider value = {{mode: 'dark'}}>
+      {/* <Counter startingCount={10} /> */}
+      { shouldRender && <Counter /> }
+      <button onClick={() => setShouldRender(!shouldRender)}>
+        Toggle counter
+      </button>
+    </Theme.Provider>
     </>
   );
 }
 
-function Counter({startingCount = 0}) {
-  const [count, setCount] = useState(startingCount);
+class Counter extends Component {
+  // 1st way
+  // static contextType = Theme;
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: props.startingCount ?? 0
+    };
+    this.ref = createRef();
+  }
 
-  useEffect(() => {
-    console.log('on 1')
-    return () => {
-      console.log('unmounted1')
-    }
+  componentDidMount() {
+    console.log('mounted!');
+    console.log(this.ref);
+    console.log(this.context);
+  }
+/*
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevProps, prevState);
+  }
+  
+  componentWillUnmount() {
+    console.log('Unmounting!')
+  }
+  
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(nextProps, nextState);
+    return nextState.count < 3;
+  }
+*/
+  render() {
+    return (
+      <>
+        <button ref={this.ref} onClick={() => {
+          this.setState({
+            count: this.state.count + 1
+          });
+        }}
+        >Increment
+        </button>
+        <p>Count: {this.state.count}</p>
+        {/* 1st way */}
+        {/* <p>Theme: {this.context.mode}</p> */}
 
-  }, [count]);
-
-  useEffect(() => {
-    console.log('on 2')
-    return () => {
-      console.log('unmounted2')
-    }
-
-  },[]);
-
-
-  useEffect(() => {
-    console.log('on 3');
-    return () => {
-      console.log('unmounted3')
-    }
-    
-  });
-
-
-  return (
-    <>
-      <button onClick={() => setCount(count + 1)}
-      >Increment
-      </button>
-      <p>Count: {count}</p>
-    </>
-  );
+        {/* 2nd way */}
+        <Theme.Consumer>
+          {
+            context => <p>Theme: {context.mode} </p>
+          }
+        </Theme.Consumer>
+      </>
+    );
+  }
 }
